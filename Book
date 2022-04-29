@@ -1,0 +1,52 @@
+package w1;
+public class Book {
+	//As for the books we need some details like 
+	//Book Name,Author of the book,Book Id,Description of the book so we will declare that.
+		private String bookName; 
+		private String authorName;
+		private int bookId;
+		private String description;
+		
+		public Book(String bookName, String authorName, int bookId, String description) {
+	//Here we will assign the variables that we have considered.
+			this.bookName=bookName;
+			this.authorName=authorName;
+			this.bookId=bookId;
+			this.description=description;
+		}
+	//Now lets add the get and set functions for these variables.
+
+		public String getBookName() {
+			return bookName;
+		}
+
+		public void setBookName(String bookName) {
+			this.bookName = bookName;
+		}
+
+		public String getAuthorName() {
+			return authorName;
+		}
+
+		public void setAuthorName(String authorName) {
+			this.authorName = authorName;
+		}
+
+		public int getBookId() {
+			return bookId;
+		}
+
+		public void setBookId(int bookId) {
+			this.bookId = bookId;
+		}
+
+		public String getDescription() {
+			return description;
+		}
+
+		public void setDescription(String description) {
+			this.description = description;
+		}
+		
+
+}
