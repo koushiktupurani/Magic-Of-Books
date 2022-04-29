@@ -1,0 +1,157 @@
+package w1;
+import java.util.Scanner;
+public class MagicofBooks {
+	Scanner sc=new Scanner(System.in);
+	User[] users;//array usage of different users
+	Book[] books;//array usage of different books
+	int totusers=5,totbooks=5;//total number of users and books are 5
+	
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		MagicofBooks MoB =new MagicofBooks();
+		MoB.userPojo();//users info initialization
+		MoB.bookPojo();//books info initialization
+		
+		String res;
+		do {
+			System.out.println("Please enter your username:");
+			String name=sc.nextLine();
+			User validuser=MoB.validUser(name);
+			if (validuser==null) {
+				System.out.println("Sorry! You are not an authorized user");
+				break;
+			}
+			System.out.println("Welcome " +name+"!");
+			System.out.println("**************MENU**************");
+			System.out.println("Print your books (new,favourite,completed)");
+		    System.out.println("2.Find book by bookId");
+			System.out.println("3.Print the details of a book");
+			System.out.println("Please enter your choice:");
+			int choice=sc.nextInt();
+			sc.nextLine();
+			switch(choice) {
+				case 1:
+					MoB.Pbooks(validuser);
+					break;
+				case 2:
+					int bId=sc.nextInt();
+					sc.nextLine();
+					boolean result=MoB.bookAvailable(bId);
+					if(result) System.out.println("Available");
+					else System.out.println("Unavailable");
+					break;
+				case 3:
+					String bookname=sc.nextLine();
+					MoB.bookDetails(bookname);
+					break;
+				default :System.out.println("Incorrect Option!");
+			}
+			System.out.println("Do you want to continue?");
+			res=sc.nextLine();
+		}while(res.equalsIgnoreCase("yes"));
+	}
+//USER POJO class to model the data of users
+
+	void userPojo() {
+		//Here we are modeling the info of different Users to the User class
+		String[] usernames= {"Adam Sandler", "Tom Hanks", "Tom Cruise", "Angelina Jolie", "Scarlett Johansson"};
+		int[][] newb= {{0},{2},{1},{0,4},{4}};
+		int[][] favourite= {{1,2},{0,3},{2},{1},{0}};
+		int[][] completed= {{3},{4},{3,4},{1,3},{3}};
+		 
+		users=new User[totusers];
+		for(int i=0;i<totusers;i++) {
+	    	String name=usernames[i];
+			String email=usernames[i]+"@gmail.com";
+			String password=usernames[i]+"123";
+			Book[] newBooks=setBooks(newb[i]);
+		    Book[] favouriteBooks=setBooks(favourite[i]);
+			Book[] completedBooks=setBooks(completed[i]);
+			users[i]=new User(name,i,email,password,newBooks,favouriteBooks,completedBooks);
+		 }		
+	}
+//user validation function taking name as input and checking in user set and returning user if present
+
+	User validUser(String userName) {
+		for(int i=0;i<totusers;i++) {
+			if(users[i].getName().equalsIgnoreCase(userName)) {
+				return users[i];
+			}
+		}
+		return null;
+	}
+	
+//Method to print all the books of a user
+	
+	 void Pbooks(User user) {
+		//new books
+		System.out.println("New Books: ");
+		for(Book book : user.getNewBooks()) {
+			System.out.println(book.getBookName());
+		}
+		//favourite books
+		System.out.println("Favourite Books: ");
+		for(Book book : user.getFavouriteBooks()) {
+			System.out.println(book.getBookName());
+		}
+		//completed books
+		System.out.println("Completed Books: ");
+		for(Book book : user.getCompletedBooks()) {
+			System.out.println(book.getBookName());
+		}
+	}
+//book availability method
+	 
+	 boolean bookAvailable(int bId) {
+		 for(Book book: books) {
+			 if(book.getBookId()==bId) {
+				 return true;
+			 }
+		 }
+		 return false;
+	 }
+
+//Book Details Method
+	 
+	 void bookDetails(String Bname) {
+		 Book Breq=null;
+		 for(Book book:books) {
+			 if(book.getBookName().equalsIgnoreCase(Bname)) {
+				 Breq=book;
+				 break;
+			 }
+		 }
+		 if(Breq!=null) {
+			 System.out.println("Author Name: "+Breq.getAuthorName());
+			 System.out.println("Description: "+Breq.getDescription());
+		 }
+	 }
+	 
+//BOOK POJO class to model the data of books
+	
+	void bookPojo() {
+		//Here we are modeling the info of different Books to the Book class
+		String[] bookName= {"Ulysses", "Don Quixote", "One Hundred Years of Solitude", "Hamlet", "In Search of Lost Time"}; 
+		String[] authorName= {"James Joyce","Miguel de Cervantes","Gabriel Garcia Marquez", "William Shakespeare", "Marcel Proust"};
+		int[] bookId= {0,1,2,3,4};
+		String[] description= {"Ulysses by James Joyce", "Don Quixote byMiguel de Cervantes", "One Hundred Years of Solitude by Gabriel Garcia Marquez", "Hamlet by William Shakespeare", "In Search of Lost Time by Marcel Proust"};
+		books=new Book[totbooks];
+		for(int i=0;i<totbooks;i++) 
+		{
+			books[i]=new Book(bookName[i],authorName[i],bookId[i],description[i]);
+		}
+		
+	}
+//method to set every book in BOOK domain
+	
+	Book[] setBooks(int[] binfo) {
+		int noofbooks=binfo.length;
+		Book[] cbook=new Book[noofbooks];
+		for(int i=0;i<noofbooks;i++) {
+			cbook[i]=books[binfo[i]];
+		}
+		return cbook;
+	}
+	
+
+}
